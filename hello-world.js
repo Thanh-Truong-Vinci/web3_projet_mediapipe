@@ -6,6 +6,7 @@ const statusDot = document.getElementById("status-dot");
 const emptyState = document.getElementById("lab-empty-state");
 const indexPosition = document.getElementById("index-position");
 const handCount = document.getElementById("hand-count");
+const retryCameraButton = document.getElementById("retry-camera");
 
 let handLandmarker = null;
 let lastVideoTime = -1;
@@ -16,6 +17,20 @@ const LANDMARK_HOLD_MS = 180;
 function setStatus(message, state) {
   status.textContent = message;
   statusDot.className = `lab-status-dot ${state}`;
+}
+
+function cameraErrorMessage(error) {
+  const messages = {
+    NotAllowedError: "Accès caméra refusé. Autorisez la caméra dans les permissions du navigateur.",
+    PermissionDeniedError: "Accès caméra refusé. Autorisez la caméra dans les permissions du navigateur.",
+    NotFoundError: "Aucune caméra détectée sur cet appareil.",
+    DevicesNotFoundError: "Aucune caméra détectée sur cet appareil.",
+    NotReadableError: "La caméra est déjà utilisée par une autre application.",
+    OverconstrainedError: "La caméra ne supporte pas cette résolution. Réessayez avec les réglages automatiques.",
+    SecurityError: "Le navigateur bloque l’accès à la caméra dans ce contexte.",
+    TypeError: "L’accès caméra n’est pas disponible dans ce navigateur."
+  };
+  return messages[error?.name] || `Impossible d’activer la caméra (${error?.name || "erreur inconnue"}).`;
 }
 
 async function createLandmarker(vision, fileset) {
@@ -43,10 +58,19 @@ async function createLandmarker(vision, fileset) {
 }
 
 async function startWebcam() {
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: { width: { ideal: 640 }, height: { ideal: 480 } },
-    audio: false
-  });
+  if (!navigator.mediaDevices?.getUserMedia) {
+    throw new TypeError("getUserMedia indisponible");
+  }
+
+  let stream;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
+      audio: false
+    });
+  } catch (preferredError) {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+  }
   video.srcObject = stream;
   await video.play();
   setStatus("Caméra active · levez la main", "is-ready");
@@ -112,9 +136,22 @@ async function init() {
     setStatus("Modèle prêt · activation caméra", "is-ready");
     await startWebcam();
   } catch (error) {
-    setStatus("Ouvrez via localhost pour activer la caméra", "is-error");
+    setStatus(cameraErrorMessage(error), "is-error");
+    retryCameraButton.hidden = false;
     console.error("MediaPipe Lab:", error);
   }
 }
+
+retryCameraButton.addEventListener("click", async () => {
+  retryCameraButton.hidden = true;
+  setStatus("Nouvelle tentative caméra...", "");
+  try {
+    await startWebcam();
+  } catch (error) {
+    setStatus(cameraErrorMessage(error), "is-error");
+    retryCameraButton.hidden = false;
+    console.error("MediaPipe Lab camera retry:", error);
+  }
+});
 
 init();

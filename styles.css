@@ -228,6 +228,21 @@ body::before {
 .lab-status-dot.is-ready { color: #22c55e; background: #22c55e; }
 .lab-status-dot.is-error { color: #fb7185; background: #fb7185; }
 
+.lab-retry-button {
+  margin-top: 1rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(251, 113, 133, 0.45);
+  border-radius: 0.65rem;
+  background: rgba(251, 113, 133, 0.1);
+  color: #fecdd3;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.lab-retry-button:hover { background: rgba(251, 113, 133, 0.2); }
+
 .lab-metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
