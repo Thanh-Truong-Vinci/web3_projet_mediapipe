@@ -1,0 +1,94 @@
+:root {
+  --cyan-neon: #00f3ff;
+  --magenta-neon: #ff0055;
+  --gold-neon: #ffee00;
+  --panel: rgba(12, 14, 28, 0.94);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #06060e;
+  font-family: 'Inter', sans-serif;
+  user-select: none;
+  color: #ffffff;
+}
+
+.font-cyber {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.neon-border-cyan { border: 1px solid rgba(0, 243, 255, 0.7); }
+.neon-border-pink { border: 1px solid rgba(255, 0, 85, 0.7); }
+
+#webcam-video {
+  transform: scaleX(-1);
+  object-fit: cover;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.glass-panel {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+#chifumi-panel {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.16), transparent 42%),
+    rgba(8, 10, 23, 0.98);
+}
+
+.chifumi-choice {
+  min-height: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.chifumi-choice:hover,
+.chifumi-choice:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--cyan-neon);
+  background: rgba(0, 243, 255, 0.14);
+  outline: none;
+}
+
+.chifumi-choice:disabled { cursor: wait; opacity: 0.55; }
+
+.chifumi-choice.is-selected {
+  border-color: var(--gold-neon);
+  background: rgba(255, 238, 0, 0.16);
+}
+
+#chifumi-ai-choice.is-revealing {
+  animation: chifumi-pulse 700ms ease-in-out infinite;
+}
+
+.chifumi-ai-hand {
+  min-height: 48px;
+  transition: transform 160ms ease;
+}
+
+.chifumi-ai-hand.is-revealing {
+  animation: chifumi-hand-shake 130ms linear infinite;
+}
+
+@keyframes chifumi-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.72; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes chifumi-hand-shake {
+  0%, 100% { transform: rotate(-8deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.12); }
+}
+
+@media (max-width: 640px) {
+  #chifumi-panel { max-height: 92vh; overflow-y: auto; }
+  .chifumi-choice { min-height: 82px; }
+}
