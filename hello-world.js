@@ -9,6 +9,9 @@ const handCount = document.getElementById("hand-count");
 
 let handLandmarker = null;
 let lastVideoTime = -1;
+let trackedIndexTip = null;
+let lastHandSeenAt = 0;
+const LANDMARK_HOLD_MS = 180;
 
 function setStatus(message, state) {
   status.textContent = message;
@@ -77,17 +80,27 @@ function predict() {
     return;
   }
 
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+  if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+  }
+
+  const now = performance.now();
   if (lastVideoTime !== video.currentTime) {
     lastVideoTime = video.currentTime;
     const results = handLandmarker.detectForVideo(video, performance.now());
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     const hands = results.landmarks || [];
     handCount.textContent = hands.length;
-    emptyState.classList.toggle("is-hidden", hands.length > 0);
-    if (hands[0]) drawIndexMarker(hands[0][8]);
+    if (hands[0]) {
+      trackedIndexTip = hands[0][8];
+      lastHandSeenAt = now;
+    }
   }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const markerIsFresh = trackedIndexTip && now - lastHandSeenAt <= LANDMARK_HOLD_MS;
+  emptyState.classList.toggle("is-hidden", Boolean(markerIsFresh));
+  if (markerIsFresh) drawIndexMarker(trackedIndexTip);
   window.requestAnimationFrame(predict);
 }
 
