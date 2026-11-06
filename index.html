@@ -85,6 +85,11 @@
         <i class="fa-solid fa-hand-scissors text-amber-300"></i>
         <span>Chifumi</span>
       </button>
+
+      <a href="helloworld.html" class="glass-panel hover:bg-emerald-500/20 active:scale-95 transition px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 border border-emerald-300/50 text-emerald-200">
+        <i class="fa-solid fa-flask text-emerald-300"></i>
+        <span>helloworld</span>
+      </a>
     </div>
   </header>
 
@@ -158,7 +163,7 @@
       <!-- SÉLECTEUR DE JEU -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-left">
         <!-- Carte Jeu 1 : HAND SABER -->
-        <div id="card-game-saber" class="cursor-pointer rounded-2xl p-4 border-2 border-cyan-400 bg-cyan-500/15 transition transform hover:scale-[1.01] relative">
+        <div id="card-game-saber" class="arcade-mode-card cursor-pointer rounded-2xl p-4 border-2 border-cyan-400 bg-cyan-500/15 transition transform hover:scale-[1.01] relative">
           <div class="flex items-center justify-between mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-cyber font-black text-[10px] uppercase">Jeu #1 • Dual Color</span>
             <i id="check-saber" class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
@@ -175,7 +180,7 @@
         </div>
 
         <!-- Carte Jeu 2 : FRUIT NINJA -->
-        <div id="card-game-fruit" class="cursor-pointer rounded-2xl p-4 border-2 border-white/15 bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.01] relative">
+        <div id="card-game-fruit" class="arcade-mode-card cursor-pointer rounded-2xl p-4 border-2 border-white/15 bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.01] relative">
           <div class="flex items-center justify-between mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-pink-500 text-white font-cyber font-black text-[10px] uppercase">Jeu #2 • Blitz & Slow-Mo</span>
             <i id="check-fruit" class="fa-regular fa-circle text-slate-500 text-lg"></i>
@@ -199,6 +204,17 @@
           <div class="text-xl font-cyber font-black text-white mb-1">✊ CHIFUMI ARCADE</div>
           <p class="text-xs text-slate-300 leading-relaxed">Affrontez l’IA : le premier à <strong class="text-amber-200">3 victoires</strong> remporte le match, avec révélation animée du choix adverse.</p>
         </button>
+
+        <a id="btn-modal-lab" href="helloworld.html" class="lab-launch-card sm:col-span-2 rounded-2xl p-4 text-left border border-emerald-300/35 bg-emerald-400/8 hover:bg-emerald-400/15 transition transform hover:scale-[1.01]">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] uppercase tracking-[0.18em] text-emerald-300 font-bold">Template étudiant</span>
+              <div class="text-lg font-cyber font-black text-white mt-1">🖐 helloworld</div>
+              <p class="text-xs text-slate-300 mt-1">Partez de ce template pour créer votre propre jeu ou fonction MediaPipe.</p>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square text-emerald-300"></i>
+          </div>
+        </a>
       </div>
 
       <!-- Mode de contrôle 2 doigts -->
@@ -231,7 +247,7 @@
   </div>
 
   <section id="chifumi-panel" class="fixed inset-0 z-40 hidden flex items-center justify-center p-4">
-    <div class="glass-panel neon-border-cyan rounded-3xl w-full max-w-2xl p-5 md:p-8 relative">
+    <div class="chifumi-shell glass-panel neon-border-cyan rounded-3xl w-full max-w-2xl p-5 md:p-8 relative">
       <button id="btn-close-chifumi" aria-label="Fermer le chifumi" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 text-lg">&times;</button>
       <div class="text-center mb-5">
         <p class="text-amber-300 text-[11px] uppercase tracking-[0.3em] font-bold">Mini-jeu versus IA</p>

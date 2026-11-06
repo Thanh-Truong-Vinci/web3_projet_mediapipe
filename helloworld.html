@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>helloworld | Template MediaPipe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="hello-lab">
+  <main class="lab-layout">
+    <section class="lab-intro">
+      <a class="lab-back-link" href="index.html"><span aria-hidden="true">←</span> Retour à l'arcade</a>
+      <p class="lab-kicker">Template étudiant / MediaPipe</p>
+      <h1 class="font-cyber">helloworld.<br><span>À vous de jouer.</span></h1>
+      <p class="lab-copy">Un point de départ simple pour créer votre propre jeu, interaction ou fonction à partir de la détection de la main.</p>
+      <div class="lab-status-row">
+        <span id="status-dot" class="lab-status-dot"></span>
+        <span id="status">Initialisation du modèle...</span>
+      </div>
+      <div class="lab-metrics">
+        <div><span>Index</span><strong id="index-position">-- / --</strong></div>
+        <div><span>Mains</span><strong id="hand-count">0</strong></div>
+        <div><span>Mode</span><strong>VIDEO</strong></div>
+      </div>
+    </section>
+
+    <section class="lab-stage" aria-label="Aperçu de la détection de la main">
+      <div class="lab-stage-header">
+        <div><span class="lab-live-dot"></span> Flux caméra</div>
+        <span class="lab-chip">HAND LANDMARKER</span>
+      </div>
+      <div class="lab-view-container">
+        <video id="webcam" autoplay playsinline muted></video>
+        <canvas id="output_canvas"></canvas>
+        <div id="lab-empty-state" class="lab-empty-state">Placez votre main dans le cadre</div>
+      </div>
+      <div class="lab-stage-footer">
+        <span>Point suivi : index tip / landmark 8</span>
+        <span>640 × 480</span>
+      </div>
+    </section>
+  </main>
+  <script src="hello-world.js"></script>
+</body>
+</html>

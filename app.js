@@ -447,6 +447,31 @@
       });
     }
 
+    window.arcadeSession = {
+      pause() {
+        const state = { wasRunning: isRunning, controlMode };
+        isRunning = false;
+        if (audio.timerId) {
+          clearInterval(audio.timerId);
+          audio.timerId = null;
+        }
+        audio.isPlaying = false;
+        if (video.srcObject) {
+          video.srcObject.getTracks().forEach((track) => track.stop());
+          video.srcObject = null;
+        }
+        canvas.classList.add("hidden");
+        video.classList.add("hidden");
+        return state;
+      },
+      resume(state) {
+        canvas.classList.remove("hidden");
+        if (!state?.wasRunning) return;
+        if (state.controlMode === "WEBCAM") initMediaPipeAndCamera();
+        else startMouseFallbackMode();
+      }
+    };
+
     // ============================================================================
     // 3. TRACKING 2 DOIGTS COLORÉS (Découplé à 30Hz + Interpolation 60FPS)
     // - Si 1 seule main est visible :

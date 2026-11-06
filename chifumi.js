@@ -30,6 +30,7 @@ let cameraStream = null;
 let detectionFrame = 0;
 let stableGesture = null;
 let stableGestureCount = 0;
+let pausedArcadeState = null;
 
 function getChoice(id) { return CHOICES.find((choice) => choice.id === id); }
 
@@ -186,14 +187,30 @@ function detectGesture() {
 }
 
 function openChifumi() {
+  pausedArcadeState = window.arcadeSession?.pause() || null;
   document.getElementById("modal-overlay").classList.add("hidden");
   panel.classList.remove("hidden");
   resetGame();
   startCamera();
 }
 
+function closeChifumi() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach((track) => track.stop());
+    cameraStream = null;
+  }
+  camera.srcObject = null;
+  panel.classList.add("hidden");
+  if (pausedArcadeState?.wasRunning) {
+    window.arcadeSession.resume(pausedArcadeState);
+  } else {
+    document.getElementById("modal-overlay").classList.remove("hidden");
+  }
+  pausedArcadeState = null;
+}
+
 document.getElementById("btn-open-chifumi").addEventListener("click", openChifumi);
 document.getElementById("btn-modal-chifumi").addEventListener("click", openChifumi);
-document.getElementById("btn-close-chifumi").addEventListener("click", () => panel.classList.add("hidden"));
+document.getElementById("btn-close-chifumi").addEventListener("click", closeChifumi);
 document.getElementById("btn-reset-chifumi").addEventListener("click", resetGame);
 startCameraButton.addEventListener("click", startCamera);
